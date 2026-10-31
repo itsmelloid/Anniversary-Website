@@ -16,7 +16,7 @@ section{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;al
 
 /* photo slots */
 .ph{background:#e9b9c0 center/cover no-repeat;cursor:pointer;position:relative;display:grid;place-items:center;color:var(--wine);font-family:var(--hand);font-size:1.3rem;text-align:center}
-.ph:not(.has)::after{content:"+ add photo";opacity:.8}
+.ph:not(.has)::after{content:"";opacity:.8}
 .ph:focus-visible{outline:3px solid #fff;outline-offset:3px}
 
 /* hero */
@@ -223,7 +223,7 @@ section{
 const START = new Date(2021, 10, 1);   // Nov 1, 2021
 /* Put your photo paths here, in order (13 slots; the last one is the mail intro background).
    Leave "" to keep a "+ add photo" slot (click it to preview a photo from your device). */
-const PHOTOS = ["img/1.jpg","img/2.jpg","img/3.jpg","img/4.jpg","img/5.jpg","img/6.jpg","img/7.jpg","img/8.jpg","img/9.jpg","img/10.jpg","img/11.jpg","img/12.jpg",""];
+const PHOTOS = ["img/1.jpg","img/2.jpg","img/3.jpg","img/4.jpg","img/5.jpg","img/6.jpg","img/7.jpg","img/8.jpg","img/9.jpg","img/10.jpg","img/11.jpg","img/12.jpg",];
 /* ===================== */
 
 const slots = document.querySelectorAll('.ph');
