@@ -10,7 +10,7 @@
 --script:'Pinyon Script','Snell Roundhand',cursive;--serif:'Cormorant Garamond',Georgia,serif;--hand:'Caveat','Segoe Print',cursive}
 *{box-sizing:border-box;margin:0}
 html{scroll-behavior:smooth}
-body{background:var(--wine);color:var(--cream);font-family:var(--serif);font-size:1.2rem;line-height:1.6;overflow-x:hidden}
+body{background:var(--wine);color:var(--cream);font-family:var(--serif);font-size:1.2rem;line-height:1.6;overflow-x:clip}
 section{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4rem 1.2rem;position:relative}
 .dark{background:radial-gradient(circle at 50% 0,#8f1224,var(--deep))}
 
@@ -96,6 +96,40 @@ body.locked{overflow:hidden;height:100svh}
 #intro.open .note{transform:translateY(-58%)}
 #intro.open .cue{opacity:0}
 @media (prefers-reduced-motion:reduce){.seal{animation:none}}
+
+/* ===== MUSIC BUTTON ===== */
+button.music{position:fixed;right:1rem;bottom:5.4rem;z-index:6;border:0;border-radius:50%;width:56px;height:56px;font-size:1.5rem;background:var(--cream);box-shadow:0 6px 16px #0006;cursor:pointer}
+button.music:focus-visible{outline:3px solid #fff}
+button.music[hidden]{display:none}
+
+/* ===== SWIPE / DRAG POLAROIDS ===== */
+.rail{
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior-x:contain;
+  touch-action:pan-x pan-y;
+  scrollbar-width:none;
+  cursor:grab;
+}
+.rail::-webkit-scrollbar{display:none}
+.rail.drag{cursor:grabbing;scroll-snap-type:none}
+.pol .ph{user-select:none;-webkit-user-select:none}
+
+/* ===== MOBILE TWEAKS ===== */
+@media (max-width:600px){
+  body{font-size:1.05rem}
+  section{padding:3rem 1rem}
+  .frame{width:42vw}
+  .msg{gap:1.2rem}
+  .card{order:-1;width:100%;max-width:none}
+  .pol{flex-basis:70vw}
+  .paper,.paper.photo{transform:none;max-width:100%}
+  .cam{width:80vw}
+}
+/* phones na may notch */
+section{
+  padding-left:max(1rem,env(safe-area-inset-left));
+  padding-right:max(1rem,env(safe-area-inset-right));
+}
 </style>
 </head>
 <body class="locked">
@@ -180,15 +214,16 @@ body.locked{overflow:hidden;height:100svh}
 
 <div class="hearts" id="hearts" aria-hidden="true"></div>
 <button class="love" id="love" aria-label="Send hearts">♥</button>
+<button class="music" id="music" aria-label="Play or pause music" hidden>🎵</button>
+<audio id="bgm" src="music.mp3" loop preload="auto"></audio>
 <input type="file" id="picker" accept="image/*" hidden>
 
 <script>
 /* ===== EDIT HERE ===== */
-const START = new Date(2021, 10, 1);            // Nov 1, 2021
+const START = new Date(2021, 10, 1);   // Nov 1, 2021
 /* Put your photo paths here, in order (13 slots; the last one is the mail intro background).
-   Example: ["img/1.jpg","img/2.jpg", ...]
    Leave "" to keep a "+ add photo" slot (click it to preview a photo from your device). */
-const PHOTOS = ["img/1.jpg","img/2.jpg","img/3.jpg","img/4.jpg","img/5.jpg","img/6.jpg","img/7.jpg","img/8.jpg","img/9.jpg","img/10.jpg","img/11.jpg","img/12.jpg"];
+const PHOTOS = ["img/1.jpg","img/2.jpg","img/3.jpg","img/4.jpg","img/5.jpg","img/6.jpg","img/7.jpg","img/8.jpg","img/9.jpg","img/10.jpg","img/11.jpg","img/12.jpg",""];
 /* ===================== */
 
 const slots = document.querySelectorAll('.ph');
@@ -229,10 +264,41 @@ function burst(n=18){
 }
 document.getElementById('love').addEventListener('click',()=>burst());
 
+/* swipe / drag polaroids (para sa mouse) */
+const rail = document.querySelector('.rail');
+let down = false, sx = 0, sl = 0, moved = false;
+rail.addEventListener('pointerdown', e => {
+  if (e.pointerType === 'touch') return;   // native swipe ang bahala sa touch
+  down = true; moved = false; sx = e.clientX; sl = rail.scrollLeft;
+});
+window.addEventListener('pointermove', e => {
+  if (!down) return;
+  const dx = e.clientX - sx;
+  if (Math.abs(dx) > 5) { moved = true; rail.classList.add('drag'); }
+  rail.scrollLeft = sl - dx;
+});
+window.addEventListener('pointerup', () => { down = false; rail.classList.remove('drag'); });
+/* huwag mag-open ang photo picker pag nag-drag lang */
+rail.addEventListener('click', e => {
+  if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; }
+}, true);
+
+/* music (audio tag) */
+const bgm=document.getElementById('bgm');
+const musicBtn=document.getElementById('music');
+function startMusic(){bgm.volume=.7;bgm.play().catch(()=>{})}
+
+musicBtn.hidden=false;
+musicBtn.addEventListener('click',()=>{
+  bgm.paused?bgm.play():bgm.pause();
+});
+bgm.addEventListener('play',()=>musicBtn.textContent='🎵');
+bgm.addEventListener('pause',()=>musicBtn.textContent='🔇');
+
 /* mail intro */
 document.getElementById('seal').addEventListener('click',()=>{
   const intro=document.getElementById('intro');
-  intro.classList.add('open');
+  intro.classList.add('open');startMusic();
   setTimeout(()=>{intro.classList.add('gone');document.body.classList.remove('locked');window.scrollTo(0,0);burst(24)},2600);
   setTimeout(()=>intro.remove(),3800);
 });
