@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Happy 5th Anniversary, My Love</title>
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{--wine:#7a0c1a;--deep:#4a0610;--rose:#f3c9cf;--cream:#fbf1ee;--ink:#3b1a1f;
+--script:'Pinyon Script','Snell Roundhand',cursive;--serif:'Cormorant Garamond',Georgia,serif;--hand:'Caveat','Segoe Print',cursive}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--wine);color:var(--cream);font-family:var(--serif);font-size:1.2rem;line-height:1.6;overflow-x:hidden}
+section{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4rem 1.2rem;position:relative}
+.dark{background:radial-gradient(circle at 50% 0,#8f1224,var(--deep))}
+
+/* photo slots */
+.ph{background:#e9b9c0 center/cover no-repeat;cursor:pointer;position:relative;display:grid;place-items:center;color:var(--wine);font-family:var(--hand);font-size:1.3rem;text-align:center}
+.ph:not(.has)::after{content:"+ add photo";opacity:.8}
+.ph:focus-visible{outline:3px solid #fff;outline-offset:3px}
+
+/* hero */
+.hero{text-align:center;overflow:hidden;color:var(--wine)}
+.hero .ph{position:absolute;inset:0;z-index:0;background-color:#f1d5d6}
+.hero .ph.has+.veil,.hero .veil{position:absolute;inset:0;background:linear-gradient(#ffffff55,#ffffff22 40%,#7a0c1a55)}
+.hero h1{position:relative;font:400 clamp(3.2rem,15vw,8rem)/.95 var(--script);color:var(--wine);text-shadow:0 2px 20px #fff9;pointer-events:none}
+.hero h1 small{display:block;font-size:.5em;margin:.2em 0}
+.hero p{position:relative;font-style:italic;font-weight:700;margin-top:1rem;pointer-events:none}
+.hero .hint{position:absolute;bottom:1.5rem;font-size:.95rem;opacity:.8;z-index:1}
+.counter{position:relative;margin-top:1.5rem;background:#fffc;padding:.6rem 1.2rem;border-radius:2rem;font-weight:700;pointer-events:none}
+
+/* message */
+.msg{display:flex;flex-wrap:wrap;gap:2rem;justify-content:center;align-items:center;max-width:1000px}
+.frame{width:min(260px,70vw);aspect-ratio:3/4;border:6px solid var(--cream);border-radius:60px 60px 18px 18px;overflow:hidden;box-shadow:0 12px 30px #0006}
+.frame.r{border-radius:18px 18px 60px 60px;transform:rotate(3deg)}
+.frame.l{transform:rotate(-3deg)}
+.card{max-width:380px;padding:2rem 1.6rem;text-align:center;border:2px solid var(--rose);outline:1px solid var(--rose);outline-offset:6px;border-radius:70px 70px 14px 14px;background:#5a0814aa}
+.card h2{font-size:1rem;letter-spacing:.12em;text-transform:none;margin-bottom:1rem;font-weight:700}
+.card p{font-size:1.05rem}
+
+/* polaroids */
+.rail{display:flex;gap:1.5rem;overflow-x:auto;width:100%;padding:3rem 1.5rem;scroll-snap-type:x mandatory;justify-content:safe center}
+.pol{flex:0 0 200px;background:#fff;padding:12px 12px 44px;box-shadow:0 10px 24px #0007;scroll-snap-align:center;transition:transform .3s}
+.pol:nth-child(odd){transform:rotate(-4deg)}.pol:nth-child(even){transform:rotate(3deg) translateY(14px)}
+.pol .ph{aspect-ratio:1}
+.pol span{position:absolute;margin-top:10px;left:0;right:0;text-align:center;color:var(--ink);font:1.3rem var(--hand)}
+.pol:hover{transform:rotate(0) scale(1.06);z-index:2}
+h2.script{font:400 clamp(2.4rem,9vw,4rem)/1.1 var(--script);text-align:center}
+
+/* letter */
+.letter{display:flex;flex-wrap:wrap;gap:1.5rem;justify-content:center;align-items:flex-start;max-width:900px}
+.paper{background:#fffaf6;color:var(--ink);padding:1.6rem;box-shadow:0 14px 30px #0007;max-width:420px;transform:rotate(1.5deg);font-size:1.08rem}
+.paper.photo{max-width:230px;transform:rotate(-3deg);padding:1rem}
+.paper.photo .ph{aspect-ratio:4/5}
+.paper b{display:block;font:1.7rem var(--hand);margin-bottom:.4rem}
+.paper .sign{font:1.8rem var(--hand);text-align:right;margin-top:.8rem}
+
+/* gingham */
+.gingham{background:
+ repeating-linear-gradient(0deg,#d9303e55 0 28px,transparent 28px 56px),
+ repeating-linear-gradient(90deg,#d9303e55 0 28px,transparent 28px 56px),#fff5f3;color:var(--wine);text-align:center}
+.gingham .stack{display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;margin-top:2rem}
+.cam{width:min(240px,70vw);background:#dcdde1;border-radius:22px;padding:14px;box-shadow:0 14px 30px #0006}
+.cam .ph{aspect-ratio:4/3;border-radius:10px;border:5px solid #888}
+.cam::before{content:"";display:block;width:38px;height:12px;background:#888;border-radius:6px;margin:0 0 10px auto}
+.cam:nth-child(2){transform:rotate(-4deg)}.cam:nth-child(1){transform:rotate(3deg)}
+.gingham p{background:#fffd;padding:.6rem 1.2rem;border-radius:1rem;margin-top:1.5rem;display:inline-block}
+
+footer.hero small{font-size:.35em}
+.hearts{position:fixed;inset:0;pointer-events:none;z-index:5;overflow:hidden}
+.hearts i{position:absolute;bottom:-30px;font-style:normal;animation:up linear forwards}
+@keyframes up{to{transform:translateY(-110vh) rotate(25deg);opacity:0}}
+button.love{position:fixed;right:1rem;bottom:1rem;z-index:6;border:0;border-radius:50%;width:56px;height:56px;font-size:1.6rem;background:var(--cream);box-shadow:0 6px 16px #0006;cursor:pointer}
+button.love:focus-visible{outline:3px solid #fff}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hearts{display:none}}
+
+/* ===== MAIL INTRO ===== */
+body.locked{overflow:hidden;height:100svh}
+#intro{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;transition:opacity 1s,visibility 1s}
+#intro.gone{opacity:0;visibility:hidden}
+#intro .ph{position:absolute;inset:0;z-index:0;background:linear-gradient(#b985b8,#e29aa8 60%,#f2c2b0) center/cover;place-items:end center;padding-bottom:1rem;color:#fff}
+#intro .ph.has::after{content:""}
+#intro .shade{position:absolute;inset:0;background:#4a061033;z-index:0;pointer-events:none}
+#intro h2{position:relative;z-index:1;font:400 clamp(2.6rem,12vw,4.5rem)/1 var(--script);color:#fff;text-shadow:0 2px 14px #0006;pointer-events:none;transition:opacity .6s}
+#intro .cue{position:relative;z-index:1;font:1.4rem var(--hand);color:#fff;text-shadow:0 1px 8px #0008;pointer-events:none;transition:opacity .4s}
+.env{position:relative;z-index:1;width:min(320px,80vw);aspect-ratio:3/2;perspective:900px;margin-top:2.5rem}
+.env .back{position:absolute;inset:0;background:#7a0c1a;border-radius:6px;box-shadow:0 20px 40px #0008}
+.env .note{position:absolute;left:7%;right:7%;top:5%;bottom:5%;background:#fffaf6;color:var(--wine);display:grid;place-items:center;text-align:center;font:400 1.9rem/1.1 var(--script);padding:.5rem;box-shadow:0 2px 8px #0004;transition:transform 1s .6s ease}
+.env .front{position:absolute;inset:0;z-index:2;background:#b01a2e;clip-path:polygon(0 0,50% 56%,100% 0,100% 100%,0 100%);border-radius:6px}
+.env .flap{position:absolute;left:0;right:0;top:0;height:56%;z-index:3;background:#c42339;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform .7s ease}
+.seal{position:absolute;z-index:4;left:50%;top:56%;width:58px;height:58px;margin:-29px 0 0 -29px;border:0;border-radius:50%;cursor:pointer;color:#8a6a16;font-size:1.5rem;background:radial-gradient(circle at 35% 30%,#fff2b0,#d9b43f 55%,#a87f1c);box-shadow:0 4px 10px #0007,inset 0 0 0 4px #ffffff55;animation:pulse 1.6s infinite;transition:transform .5s,opacity .5s}
+.seal:focus-visible{outline:3px solid #fff;outline-offset:4px}
+@keyframes pulse{50%{transform:scale(1.12)}}
+#intro.open .seal{transform:scale(1.8);opacity:0;animation:none;pointer-events:none}
+#intro.open .flap{transform:rotateX(180deg)}
+#intro.open .note{transform:translateY(-58%)}
+#intro.open .cue{opacity:0}
+@media (prefers-reduced-motion:reduce){.seal{animation:none}}
+</style>
+</head>
+<body class="locked">
+
+<!-- 0. MAIL INTRO -->
+<div id="intro" role="dialog" aria-label="You've got mail">
+  <div class="ph" data-photo="12" tabindex="0" role="button" aria-label="Add intro background photo"></div><div class="shade"></div>
+  <h2>You've got mail!</h2>
+  <div class="env">
+    <div class="back"></div>
+    <div class="note">Happy 5th<br>Anniversary,<br>My Love ♥</div>
+    <div class="front"></div>
+    <div class="flap"></div>
+    <button class="seal" id="seal" aria-label="Open the letter">♥</button>
+  </div>
+  <p class="cue">Click the wax to open</p>
+</div>
+
+<!-- 1. HERO -->
+<section class="hero" id="top">
+  <div class="ph" data-photo="0" tabindex="0" role="button" aria-label="Add hero photo"></div><div class="veil"></div>
+  <h1>Happy<small>5th Anniversary</small>My Love!</h1>
+  <p>November 1, 2021 – November 1, 2026</p>
+  <div class="counter" id="counter"></div>
+  <span class="hint">scroll down ↓</span>
+</section>
+
+<!-- 2. MESSAGE -->
+<section class="dark">
+  <div class="msg">
+    <div class="frame l ph" data-photo="1" tabindex="0" role="button" aria-label="Add photo"></div>
+    <div class="card">
+      <h2>HAPPY 5TH ANNIVERSARY, PALANGGA!</h2>
+      <p>Grabe, 5 years na diay ta. Daghan na kaayo tag naagian, ups and downs, misunderstandings, away gamay, pero despite everything, we're still here, choosing each other. I just want to say thank you for staying and for being part of my life. Sorry sa mga times nga nakapasakit ko nimo, sa akong mga pagkulang, and sa times nga wala nako napakita kung unsa tika ka-love. I know I'm not perfect, pero I hope you know nga I'm always trying to be better for us.</p>
+    </div>
+    <div class="frame r ph" data-photo="2" tabindex="0" role="button" aria-label="Add photo"></div>
+  </div>
+</section>
+
+<!-- 3. POLAROIDS -->
+<section class="dark">
+  <h2 class="script">My favorite person</h2>
+  <div class="rail">
+    <div class="pol"><div class="ph" data-photo="3" tabindex="0" role="button"></div><span></span></div>
+    <div class="pol"><div class="ph" data-photo="4" tabindex="0" role="button"></div><span></span></div>
+    <div class="pol"><div class="ph" data-photo="5" tabindex="0" role="button"></div><span></span></div>
+    <div class="pol"><div class="ph" data-photo="6" tabindex="0" role="button"></div><span></span></div>
+    <div class="pol"><div class="ph" data-photo="7" tabindex="0" role="button"></div><span></span></div>
+  </div>
+</section>
+
+<!-- 4. LETTER -->
+<section class="dark">
+  <div class="letter">
+    <div class="paper photo"><div class="ph" data-photo="8" tabindex="0" role="button"></div></div>
+    <div class="paper">
+      <b>Langga,</b>
+      I hope you like this little gift. You deserve this and so much more. Dili man ko perfect nga partner, pero I promise nga I'll keep trying to make you feel loved and appreciated.
+      <br><br>Thank you for these 5 years. Hopefully, daghan pa tag anniversaries nga ma-celebrate together. I love you always! ❤️
+    </div>
+  </div>
+</section>
+
+<!-- 5. MEMORIES -->
+<section class="gingham">
+  <h2 class="script">5 years of us</h2>
+  <div class="stack">
+    <div class="cam"><div class="ph" data-photo="9" tabindex="0" role="button"></div></div>
+    <div class="cam"><div class="ph" data-photo="10" tabindex="0" role="button"></div></div>
+  </div>
+  <p>Every picture is a little proof that I got lucky.</p>
+</section>
+
+<!-- 6. CLOSING -->
+<footer class="hero">
+  <section style="width:100%">
+    <div class="ph" data-photo="11" tabindex="0" role="button" aria-label="Add closing photo"></div><div class="veil"></div>
+    <h1>Happy<small>5th Anniversary</small>My Love!</h1>
+    <p>11 · 01 · 21 &nbsp;♥&nbsp; Here's to forever</p>
+  </section>
+</footer>
+
+<div class="hearts" id="hearts" aria-hidden="true"></div>
+<button class="love" id="love" aria-label="Send hearts">♥</button>
+<input type="file" id="picker" accept="image/*" hidden>
+
+<script>
+/* ===== EDIT HERE ===== */
+const START = new Date(2021, 10, 1);            // Nov 1, 2021
+/* Put your photo paths here, in order (13 slots; the last one is the mail intro background).
+   Example: ["img/1.jpg","img/2.jpg", ...]
+   Leave "" to keep a "+ add photo" slot (click it to preview a photo from your device). */
+const PHOTOS = ["img/1.jpg","img/2.jpg","img/3.jpg","img/4.jpg","img/5.jpg","img/6.jpg","img/7.jpg","img/8.jpg","img/9.jpg","img/10.jpg","img/11.jpg","img/12.jpg"];
+/* ===================== */
+
+const slots = document.querySelectorAll('.ph');
+const setPhoto = (el,url)=>{el.style.backgroundImage=`url("${url}")`;el.classList.add('has')};
+slots.forEach(el=>{
+  const i = +el.dataset.photo;
+  if(PHOTOS[i]) setPhoto(el,PHOTOS[i]);
+  el.addEventListener('click',()=>{picker._t=el;picker.click()});
+  el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click()}});
+});
+const picker=document.getElementById('picker');
+picker.addEventListener('change',()=>{
+  const f=picker.files[0]; if(!f||!picker._t) return;
+  setPhoto(picker._t,URL.createObjectURL(f)); picker.value='';
+});
+
+/* days together */
+(function(){
+  const c=document.getElementById('counter'), now=new Date();
+  const days=Math.floor((now-START)/864e5);
+  const ann=new Date(2026,10,1), left=Math.ceil((ann-now)/864e5);
+  c.textContent = left>0 ? `${days.toLocaleString()} days together · ${left} day${left>1?'s':''} to go` : `${days.toLocaleString()} days together and counting`;
+})();
+
+/* hearts */
+const box=document.getElementById('hearts');
+function burst(n=18){
+  for(let i=0;i<n;i++){
+    const h=document.createElement('i');
+    h.textContent=['♥','❤','💕'][i%3];
+    h.style.left=Math.random()*100+'%';
+    h.style.fontSize=(16+Math.random()*26)+'px';
+    h.style.color=['#ff8fa3','#fff','#ffb3c1'][i%3];
+    h.style.animationDuration=(3+Math.random()*3)+'s';
+    h.style.animationDelay=(Math.random()*.8)+'s';
+    box.appendChild(h); setTimeout(()=>h.remove(),7500);
+  }
+}
+document.getElementById('love').addEventListener('click',()=>burst());
+
+/* mail intro */
+document.getElementById('seal').addEventListener('click',()=>{
+  const intro=document.getElementById('intro');
+  intro.classList.add('open');
+  setTimeout(()=>{intro.classList.add('gone');document.body.classList.remove('locked');window.scrollTo(0,0);burst(24)},2600);
+  setTimeout(()=>intro.remove(),3800);
+});
+</script>
+</body>
+</html>
